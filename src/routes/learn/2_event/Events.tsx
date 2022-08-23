@@ -29,7 +29,7 @@ export const EventListener = component$(() => {
         </div>
 
         <div className='flex flex-col'>
-          <label for='input'>Event Input</label>
+          <label htmlFor='input'>Event Input</label>
           <input
             type='text'
             id='input'
@@ -99,7 +99,7 @@ export const PreventDefault = component$(() => {
       >
         <div className='w-1/2'>
           <div className='flex flex-col'>
-            <label for='form-email'>Email</label>
+            <label htmlFor='form-email'>Email</label>
             <input
               type='email'
               name='email'
@@ -110,7 +110,7 @@ export const PreventDefault = component$(() => {
             />
           </div>
           <div className='flex flex-col mt-4'>
-            <label for='form-password'>Password</label>
+            <label htmlFor='form-password'>Password</label>
             <input
               type='password'
               name='password'
@@ -163,7 +163,7 @@ export const SynchronusEvent = component$(() => {
       <form className='bg-blue-200 p-4 mt-4 rounded-md shadow-md flex flex-col justify-center items-center'>
         <div className='w-1/2'>
           <div className='flex flex-col'>
-            <label for='form-email-sync-event'>Email</label>
+            <label htmlFor='form-email-sync-event'>Email</label>
             <input
               type='email'
               name='email'
@@ -175,7 +175,7 @@ export const SynchronusEvent = component$(() => {
             />
           </div>
           <div className='flex flex-col mt-4'>
-            <label for='form-password-sync-event'>Password</label>
+            <label htmlFor='form-password-sync-event'>Password</label>
             <input
               type='password'
               name='password'
