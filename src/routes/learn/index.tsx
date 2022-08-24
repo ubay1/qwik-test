@@ -3,6 +3,7 @@ import type { DocumentHead } from "@builder.io/qwik-city";
 import { Component } from "./1_component/component";
 import { Events } from "./2_event/Events";
 import { States } from "./3_state/State";
+import { Props } from "./4_component_props/Props";
 
 export default component$(() => {
   return (
@@ -14,6 +15,7 @@ export default component$(() => {
       <Component />
       <Events />
       <States />
+      <Props />
     </div>
   );
 });

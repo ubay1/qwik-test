@@ -40,5 +40,6 @@
   },
   "homepage": "https://qwik.builder.io/",
   "license": "",
-  "private": true
+  "private": true,
+  "type": "commonjs"
 }

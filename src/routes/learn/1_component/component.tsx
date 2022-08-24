@@ -54,7 +54,7 @@ export const Component = component$(() => {
                 a. variabel yang dicakup secara leksikal harus dideklarasikan sebagai <b>const.</b> <br /> contoh
                 lexical scope. setiap inner level didalam dapat mengakses outer level: <br />
               </div>
-              <pre className='bg-slate-800 whitespace-pre-wrap break-words text-left'>
+              <pre className='bg-slate-800 whitespace-pre-wrap break-words text-left text-xs p-2'>
                 <code className='text-white'> {contohLexical} </code>
               </pre>
               <div className='mt-2'>
@@ -66,7 +66,7 @@ export const Component = component$(() => {
               </div>
               <br />
               <b>contoh inline component</b>
-              <pre className='bg-slate-800 whitespace-pre-wrap break-words text-left'>
+              <pre className='bg-slate-800 whitespace-pre-wrap break-words text-left text-xs p-2'>
                 <code className='text-white'>{contohInlinEComponent} </code>
               </pre>
             </div>
