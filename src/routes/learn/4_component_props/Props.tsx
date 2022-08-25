@@ -1,21 +1,31 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { component$, mutable, useClientEffect$, useRef, useStore, useWatch$ } from "@builder.io/qwik";
+import { component$, $, mutable, useClientEffect$, useRef, useStore, useWatch$, PropFunction } from "@builder.io/qwik";
 
 interface IPropsBasic {
   name: string;
 }
 interface IDisplayProps {
   count: number;
+  textClosure?: string;
 }
 
 export const Props = component$(() => {
   const state = useStore<IDisplayProps>({
     count: 0,
+    textClosure: "",
+  });
+
+  const textPropsClosure = $((value: string) => {
+    state.textClosure = value;
   });
 
   return (
     <div className='mb-4'>
       <div className='text-pink-900'>4. Component Props</div>
+
+      <div className='ml-4 mt-4'>
+        <p className='font-bold'>4a. Passing data ke component</p>
+      </div>
       <PropsBasic name={"ubay delonge"} />
 
       <div className='ml-4 mt-4'>
@@ -26,7 +36,19 @@ export const Props = component$(() => {
         </button>
       </div>
       <MutableProps count={mutable(state.count)} />
+
+      {/* 4c */}
+      <div className='ml-4 mt-4'>
+        <p className='font-bold'>4c. Passing Stores</p>
+      </div>
       <PassingStore />
+
+      {/* 4d */}
+      <div className='ml-4 mt-4'>
+        <p className='font-bold'>4d. Passing Closure</p>
+        {state.textClosure}
+      </div>
+      <PassingClosure name={textPropsClosure} />
     </div>
   );
 });
@@ -50,8 +72,7 @@ export const PropsBasic = component$((props: IPropsBasic) => {
   };
   `;
   return (
-    <div className='ml-4 mt-2'>
-      <p className='font-bold'>4a. Passing data ke component</p>
+    <div className='ml-4'>
       <p>untuk props di qwik mirip seperti react</p>
       <p className='font-bold text-3xl mb-4'>
         hasil props {`->`} {props.name}
@@ -92,7 +113,7 @@ export const MutableProps = component$((props: IDisplayProps) => {
   `;
 
   return (
-    <div className='ml-4 mt-2'>
+    <div className='ml-4'>
       <p>Hasil props = {props.count}</p>
       <hr className='my-4' />
 
@@ -140,9 +161,7 @@ export const PassingStore = component$(() => {
   `;
 
   return (
-    <div className='ml-4 mt-4'>
-      <p className='font-bold'>4c. Passing Stores</p>
-
+    <div className='ml-4'>
       <pre className='bg-slate-800 whitespace-pre-wrap break-words text-left text-xs p-2'>
         <code className='text-white'> {contohPassingStore} </code>
       </pre>
@@ -159,6 +178,87 @@ export const PassingStore = component$(() => {
         dilihat pengguna, sehingga membuang-buang sumber daya. Pendekatan yang lebih baik adalah dengan hanya merender
         ulang komponen <b>Display</b> dengan meneruskan <b>interface CountStore</b> daripada nilai hitungan. <br />
         Karena referensi state tidak pernah berubah, komponen <b>App</b> tidak perlu dirender ulang.
+      </p>
+    </div>
+  );
+});
+
+interface IClosureProps {
+  name: PropFunction<(name: string) => void>;
+}
+
+export const PassingClosure = component$((props: IClosureProps) => {
+  const contohPassingClosure = `
+  interface CountStore {
+    count: number;
+    name:? string;
+  }
+  export const App = component$(() => {
+    const store = useStore<CountStore>({ 
+      count: 0,
+      name: string 
+    });
+    
+    // ubah function menjadi QRL
+    const testPassingClosure = $((value: string) => {
+      store.name = value
+    })
+  
+    return (
+      <div>
+        <button onClick$={() => store.count++}>+1</button>
+        <Display name={testPassingClosure} />
+      </div>
+    );
+  });
+  
+  interface IClosureProps {
+    name: PropFunction<(name: string) => void>;
+  }
+  export const Display = component$((props: IClosureProps) => {
+    return(
+      <button
+        aria-label='btn-add-state-count'
+        className='bg-blue-400  p-2 mb-4'
+        onClick$={$(() => {
+          props.name("aku ubay");
+        })}
+      >
+        test clouse props
+      </button>
+    );
+  });
+  `;
+
+  return (
+    <div className='ml-4'>
+      <pre className='bg-slate-800 whitespace-pre-wrap break-words text-left text-xs p-2'>
+        <code className='text-white'> {contohPassingClosure} </code>
+      </pre>
+
+      <hr className='my-4' />
+
+      <button
+        aria-label='btn-add-state-count'
+        className='bg-blue-400  p-2 mb-4'
+        onClick$={$(() => {
+          props.name("aku ubay");
+        })}
+      >
+        test clouse props
+      </button>
+
+      <p>
+        passing function dari parent ke child dan lakukan callback ke parent. <br />
+        1. parent kirim props function ke child yang sudah diubah ke QRL. <br />
+        2. child menerima function dengan menggunakan type <b>PropFunction</b> bawaan qwik.
+        <br />
+        3. di <b>PropFunction</b> kita bisa masukan parameter. <br />
+        4. pada function yang ada di parent, kita bisa menerima nilai parameter yang dikirim dari child
+        <br />
+        <br />
+        Callback adalah fungsi dan <b>fungsi tidak dapat dibuat serial secara langsung</b>, tetapi dapat dibuat serial
+        melalui <b>$()</b> dengan mengubahnya menjadi QRL terlebih dahulu. <br />
       </p>
     </div>
   );
