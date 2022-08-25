@@ -3,7 +3,7 @@ import Header from "../components/header/header";
 
 export default component$(() => {
   return (
-    <div>
+    <div className='bg-slate-50 h-full min-h-screen'>
       <Header />
       <main>
         <Slot />

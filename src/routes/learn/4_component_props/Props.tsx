@@ -20,8 +20,8 @@ export const Props = component$(() => {
   });
 
   return (
-    <div className='mb-4'>
-      <div className='text-pink-900'>4. Component Props</div>
+    <div className='mb-4 shadow-lg p-4 rounded-md bg-white'>
+      <div className='text-pink-900 font-bold text-3xl'>4. Component Props</div>
 
       <div className='ml-4 mt-4'>
         <p className='font-bold'>4a. Passing data ke component</p>

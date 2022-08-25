@@ -3,8 +3,8 @@ import { component$, useClientEffect$, useRef, useStore, useWatch$ } from "@buil
 
 export const States = component$(() => {
   return (
-    <div className='mb-4'>
-      <div className='text-pink-900'>3. Store</div>
+    <div className='mb-4 shadow-lg p-4 rounded-md bg-white'>
+      <div className='text-pink-900 font-bold text-3xl'>3. Store</div>
       <StoreBasic />
       <StoreRecursive />
     </div>

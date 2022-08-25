@@ -3,7 +3,7 @@ import { component$, useClientEffect$, useRef, useStore, useWatch$ } from "@buil
 
 export const Events = component$(() => {
   return (
-    <div className='mb-4'>
+    <div className='mb-4 shadow-lg p-4 rounded-md bg-white'>
       <EventListener />
       <GlobalEvent />
       <PreventDefault />
@@ -19,7 +19,7 @@ export const EventListener = component$(() => {
   });
   return (
     <div>
-      <div className='text-pink-900'>2. Events</div>
+      <div className='text-pink-900 font-bold text-3xl'>2. Events</div>
       <div className='bg-blue-200 p-4 rounded-md shadow-sm'>
         <span className='font-bold bg-red-400 p-2'>{state.count}</span>
         <div>
