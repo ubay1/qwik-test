@@ -1,6 +1,7 @@
 import { component$, useStore, useStyles$ } from "@builder.io/qwik";
 import { useLocation } from "@builder.io/qwik-city";
 import styles from "./header.css?inline";
+import IconMenu from "../../../public/logos/menu.png";
 
 export default component$(() => {
   useStyles$(styles);
@@ -24,7 +25,7 @@ export default component$(() => {
             state.isOpenMenuSm = !state.isOpenMenuSm;
           }}
         >
-          <img src='logos/menu.png' alt='' width={20} height={20} />
+          <img src={IconMenu} alt='' width={20} height={20} />
         </button>
         <nav
           className='<md:hidden'

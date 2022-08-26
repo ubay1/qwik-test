@@ -1,6 +1,13 @@
 import { component$ } from "@builder.io/qwik";
+import { DocumentHead } from "@builder.io/qwik-city";
 
-export const Component = component$(() => {
+export const head: DocumentHead = () => {
+  return {
+    title: "Learn Component",
+  };
+};
+
+export default component$(() => {
   const siku = `{ nama_state }`;
   const contohLexical = `
   void fun() {
@@ -26,7 +33,7 @@ export const Component = component$(() => {
   `;
 
   return (
-    <div className='mb-4 shadow-lg p-4 rounded-md bg-white'>
+    <div className='m-4 shadow-lg p-4 rounded-md bg-white'>
       <div className='text-pink-900 font-bold text-3xl'>1. Component</div>
       <p>
         a. di qwik untuk membuat component menggunakan <b>component$</b>

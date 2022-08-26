@@ -9,7 +9,7 @@ interface IDisplayProps {
   textClosure?: string;
 }
 
-export const Props = component$(() => {
+export default component$(() => {
   const state = useStore<IDisplayProps>({
     count: 0,
     textClosure: "",
@@ -20,7 +20,7 @@ export const Props = component$(() => {
   });
 
   return (
-    <div className='mb-4 shadow-lg p-4 rounded-md bg-white'>
+    <div className='m-4 shadow-lg p-4 rounded-md bg-white'>
       <div className='text-pink-900 font-bold text-3xl'>4. Component Props</div>
 
       <div className='ml-4 mt-4'>

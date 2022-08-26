@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { component$, useClientEffect$, useRef, useStore, useWatch$ } from "@builder.io/qwik";
 
-export const Events = component$(() => {
+export default component$(() => {
   return (
-    <div className='mb-4 shadow-lg p-4 rounded-md bg-white'>
+    <div className='m-4 shadow-lg p-4 rounded-md bg-white'>
       <EventListener />
       <GlobalEvent />
       <PreventDefault />

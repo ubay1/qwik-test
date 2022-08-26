@@ -5,7 +5,7 @@ header {
 header .header-inner {
   display: grid;
   grid-template-columns: 1fr auto auto;
-  padding: 10px;
+  padding: 20px;
 }
 
 .full-screen header .header-inner {
