@@ -1,9 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { component$, useClientEffect$, useRef, useStore, useWatch$ } from "@builder.io/qwik";
 
-interface AppStore {
+interface IImplicitStore {
   countA: number;
   countB: number;
+}
+interface IExplicitStore {
+  count: number;
+  delayCount: number;
 }
 
 export default component$(() => {
@@ -52,22 +56,64 @@ export const ImplicitTemplateUpdate = component$(() => {
   );
 });
 
-export const DisplayA = component$((props: { store: AppStore }) => {
+export const DisplayA = component$((props: { store: IImplicitStore }) => {
   console.log("Render: <DisplayA>");
   return <div>{props.store.countA}</div>;
 });
 
-export const DisplayB = component$((props: { store: AppStore }) => {
+export const DisplayB = component$((props: { store: IImplicitStore }) => {
   console.log("Render: <DisplayB>");
   return <div>{props.store.countB}</div>;
 });
 
 export const ExplicitTemplateUpdate = component$(() => {
+  const store = useStore({
+    count: 0,
+    delayCount: 0,
+  });
+  console.log("Render: <ExplicitTemplateUpdate>");
+  useWatch$(({ track }) => {
+    track(store, "count");
+
+    const id = setTimeout(() => (store.delayCount = store.count), 2000);
+    return () => clearTimeout(id);
+  });
   return (
     <div>
       <div className='ml-4 mt-4'>
-        <div className='font-semibold'>5b. Memperbarui Template secara Explicit</div>
+        <div className='font-semibold'>5b. Memperbarui Template secara Explicit dengan useWatch$</div>
+        <p>
+          Selain reaktivitas implisit yang dibuat oleh template, Qwik mendukung eksekusi kode secara eksplisit saat
+          properti berubah. Ini menggunakan hook useWatch$(). <br />
+          <blockquote className='blockquote'>
+            hook useWatch$() dijalankan sebelum komponen dirender dan bisa asinkron. Hook juga memiliki fungsi
+            pembersihan yang dipanggil pada eksekusi hook berikutnya atau saat komponen dilepas. <br />
+            fungsi track untuk mengetahui state pada store mana yang berubah.
+          </blockquote>
+        </p>
+
+        <div className='bg-blue-200 p-4 mt-4 rounded-md shadow-sm flex flex-col items-start'>
+          <div>
+            <DisplayCount store={store} />
+          </div>
+          <div>
+            <DisplayDelayCount store={store} />
+          </div>
+          <button className='bg-sky-700 text-white p-2 rounded-md' onClick$={() => store.count++}>
+            +1
+          </button>
+        </div>
       </div>
     </div>
   );
+});
+
+export const DisplayCount = component$((props: { store: IExplicitStore }) => {
+  console.log("Render: <DisplayCount>");
+  return <>{props.store.count}</>;
+});
+
+export const DisplayDelayCount = component$((props: { store: IExplicitStore }) => {
+  console.log("Render: <DisplayDelayCount>");
+  return <>{props.store.delayCount}</>;
 });
