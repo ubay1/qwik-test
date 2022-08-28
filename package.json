@@ -41,5 +41,8 @@
   "homepage": "https://qwik.builder.io/",
   "license": "",
   "private": true,
-  "type": "commonjs"
+  "type": "commonjs",
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
 }
