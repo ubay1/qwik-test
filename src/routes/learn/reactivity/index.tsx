@@ -1,5 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { component$, useClientEffect$, useRef, useStore, useResource$, Resource, useWatch$ } from "@builder.io/qwik";
+import {
+  component$,
+  useClientEffect$,
+  useRef,
+  useStore,
+  useResource$,
+  Resource,
+  useWatch$,
+  useServerMount$,
+  noSerialize,
+  qrl,
+} from "@builder.io/qwik";
 import axios from "axios";
 
 interface IImplicitStore {
@@ -12,6 +23,9 @@ interface IExplicitUseWatchStore {
 }
 interface IExplicitUseWResourceStore {
   animeTitle: string;
+  loading: boolean;
+  data: string[];
+  errorMessage: string;
 }
 
 export default component$(() => {
@@ -124,25 +138,34 @@ export const DisplayDelayCount = component$((props: { store: IExplicitUseWatchSt
 export const ExplicitTemplateUpdateUseResource = component$(() => {
   const state = useStore<IExplicitUseWResourceStore>({
     animeTitle: "naruto",
-  });
-  const reposResource = useResource$<string[]>(({ track, cleanup }) => {
-    // We need a way to re-run fetching data whenever the `github.org` changes.
-    // Use `track` to trigger re-running of this data fetching function.
-    track(state, "animeTitle");
-
-    // A good practice is to use `AbortController` to abort the fetching of data if
-    // new request comes in. We create a new `AbortController` and register a `cleanup`
-    // function which is called when this function re-runs.
-    // const controller = new AbortController();
-    cleanup(() => state);
-
-    // Fetch the data and return the promises.
-    return getRepositories(state.animeTitle);
+    loading: false,
+    data: [],
+    errorMessage: "",
   });
 
-  // useWatch$(({ track }) => {
+  useServerMount$(async () => {
+    const response = await getRepositories(state.animeTitle);
+    state.data = response;
+  });
+
+  // const reposResource = useResource$<string[]>(({ track, cleanup }) => {
+  //   // We need a way to re-run fetching data whenever the `github.org` changes.
+  //   // Use `track` to trigger re-running of this data fetching function.
   //   track(state, "animeTitle");
+
+  //   // A good practice is to use `AbortController` to abort the fetching of data if
+  //   // new request comes in. We create a new `AbortController` and register a `cleanup`
+  //   // function which is called when this function re-runs.
+  //   // const controller = new AbortController();
+  //   cleanup(() => state);
+
+  //   // Fetch the data and return the promises.
+  //   return getRepositories(state.animeTitle);
   // });
+
+  useWatch$(({ track }) => {
+    track(state, "animeTitle");
+  });
 
   return (
     <div className='ml-4 mt-4'>
@@ -151,18 +174,20 @@ export const ExplicitTemplateUpdateUseResource = component$(() => {
       <div>
         <span>
           <label htmlFor='input-anime'>Judul Anime</label>
-          <div>
+          <div className='border flex rounded-md border-gray-700'>
             <input
               id='input-anime'
-              className='border-2 px-1 border-gray-700 rounded-md'
+              className='w-full px-1  rounded-l-md focus:outline-none'
               value={state.animeTitle}
               onKeyUp$={(e) => (state.animeTitle = (e.target as HTMLInputElement).value)}
             />
-            <button type='submit'>cari</button>
+            <button className='bg-blue-200 px-2 rounded-r-md focus:outline-none' onClick$={() => changeAnime(state)}>
+              cari
+            </button>
           </div>
         </span>
         <div>
-          <Resource
+          {/* <Resource
             resource={reposResource}
             onPending={() => <>Loading...</>} // pending
             onRejected={(error) => <>Error: {error.message}</>} // promise reject
@@ -181,7 +206,28 @@ export const ExplicitTemplateUpdateUseResource = component$(() => {
                 })}
               </div>
             )}
-          />
+          /> */}
+          <div>
+            {state.loading ? (
+              <div>Loading ..</div>
+            ) : state.errorMessage ? (
+              <p>Error: {state.errorMessage}</p>
+            ) : (
+              <div>
+                {(state.data as any).map((repo: { anime: string; character: string; quote: string }) => {
+                  return (
+                    <div className='bg-blue-200 p-2 shadow-md rounded-md my-2'>
+                      <div>Anime: {repo.anime}</div>
+                      <div>Character: {repo.character}</div>
+                      <div>
+                        Quote: <p className='italic'>"{repo.quote}"</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -197,3 +243,17 @@ export async function getRepositories(title: string): Promise<string[]> {
     return Promise.reject(error);
   }
 }
+
+export const changeAnime = async (props: IExplicitUseWResourceStore) => {
+  props.loading = true;
+  try {
+    const res = await getRepositories(props.animeTitle);
+    props.data = res;
+    props.errorMessage = "";
+  } catch (error) {
+    console.log(error);
+    props.errorMessage = (error as any).message;
+  } finally {
+    props.loading = false;
+  }
+};
