@@ -152,8 +152,8 @@ export const SynchronusEvent = component$(() => {
       event.preventDefault();
       console.log(JSON.parse(JSON.stringify(store)));
     };
-    aHref.current!.addEventListener("click", handler);
-    return () => aHref.current!.removeEventListener("click", handler);
+    aHref.current?.addEventListener("click", handler);
+    return () => aHref.current?.removeEventListener("click", handler);
   });
 
   return (

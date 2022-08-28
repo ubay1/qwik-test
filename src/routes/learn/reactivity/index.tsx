@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { component$, useStore, useWatch$, useServerMount$ } from "@builder.io/qwik";
+import { component$, useStore, useWatch$, useMount$, useClientEffect$, useRef } from "@builder.io/qwik";
 import axios from "axios";
+import store from "../store";
 
 interface IImplicitStore {
   countA: number;
@@ -132,7 +133,7 @@ export const ExplicitTemplateUpdateUseResource = component$(() => {
     errorMessage: "",
   });
 
-  useServerMount$(async () => {
+  useMount$(async () => {
     const response = await getRepositories(state.animeTitle);
     state.data = response;
   });
@@ -156,6 +157,17 @@ export const ExplicitTemplateUpdateUseResource = component$(() => {
     track(state, "animeTitle");
   });
 
+  const aHref = useRef();
+  useClientEffect$(() => {
+    const handler = (event: Event) => {
+      event.preventDefault();
+      console.log(JSON.parse(JSON.stringify(state)));
+      changeAnime(state);
+    };
+    aHref.current?.addEventListener("click", handler);
+    return () => aHref.current?.removeEventListener("click", handler);
+  });
+
   return (
     <div className='ml-4 mt-4'>
       <div className='font-semibold'>5c. Memperbarui Template secara Explicit dengan useResource$</div>
@@ -170,7 +182,7 @@ export const ExplicitTemplateUpdateUseResource = component$(() => {
               value={state.animeTitle}
               onKeyUp$={(e) => (state.animeTitle = (e.target as HTMLInputElement).value)}
             />
-            <button className='bg-blue-200 px-2 rounded-r-md focus:outline-none' onClick$={() => changeAnime(state)}>
+            <button className='bg-blue-200 px-2 rounded-r-md focus:outline-none' ref={aHref}>
               cari
             </button>
           </div>
