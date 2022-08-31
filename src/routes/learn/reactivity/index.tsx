@@ -24,7 +24,7 @@ export default component$(() => {
       <div className='text-pink-900 font-bold text-3xl'>5. Reactivity</div>
       <ImplicitTemplateUpdate />
       <ExplicitTemplateUpdateUseWatch />
-      {/* <ExplicitTemplateUpdateUseResource /> */}
+      <ExplicitTemplateUpdateUseResource />
     </div>
   );
 });
@@ -127,15 +127,17 @@ export const DisplayDelayCount = component$((props: { store: IExplicitUseWatchSt
 
 export const ExplicitTemplateUpdateUseResource = component$(() => {
   const state = useStore<IExplicitUseWResourceStore>({
-    animeTitle: "naruto",
+    animeTitle: "",
     loading: false,
     data: [],
     errorMessage: "",
   });
 
   useMount$(async () => {
-    const response = await getRepositories(state.animeTitle);
-    state.data = response;
+    if (state.animeTitle !== "") {
+      const response = await getRepositories(state.animeTitle);
+      state.data = response;
+    }
   });
 
   // const reposResource = useResource$<string[]>(({ track, cleanup }) => {
