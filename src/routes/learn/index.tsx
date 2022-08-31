@@ -26,6 +26,10 @@ export default component$(() => {
       text: "Reactivity",
       link: "/learn/reactivity",
     },
+    {
+      text: "useContext",
+      link: "/learn/useContext",
+    },
   ];
 
   return (
