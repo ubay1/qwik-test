@@ -1,5 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { component$, useStore, useWatch$, useMount$, useClientEffect$, useRef } from "@builder.io/qwik";
+import {
+  component$,
+  useStore,
+  useWatch$,
+  useMount$,
+  useClientEffect$,
+  useRef,
+  Resource,
+  useServerMount$,
+} from "@builder.io/qwik";
 import axios from "axios";
 import store from "../store";
 
@@ -127,17 +136,18 @@ export const DisplayDelayCount = component$((props: { store: IExplicitUseWatchSt
 
 export const ExplicitTemplateUpdateUseResource = component$(() => {
   const state = useStore<IExplicitUseWResourceStore>({
-    animeTitle: "",
+    animeTitle: "naruto",
     loading: false,
     data: [],
     errorMessage: "",
   });
 
-  useMount$(async () => {
-    if (state.animeTitle !== "") {
-      const response = await getRepositories(state.animeTitle);
-      state.data = response;
-    }
+  useServerMount$(async () => {
+    // if (state.animeTitle !== "") {
+    const response = await getRepositories(state.animeTitle);
+
+    state.data = response;
+    // }
   });
 
   // const reposResource = useResource$<string[]>(({ track, cleanup }) => {
