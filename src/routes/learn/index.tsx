@@ -30,6 +30,10 @@ export default component$(() => {
       text: "useContext",
       link: "/learn/useContext",
     },
+    {
+      text: "Lifecycle",
+      link: "/learn/lifecycle",
+    },
   ];
 
   return (

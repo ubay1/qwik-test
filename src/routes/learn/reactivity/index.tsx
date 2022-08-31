@@ -24,7 +24,7 @@ export default component$(() => {
       <div className='text-pink-900 font-bold text-3xl'>5. Reactivity</div>
       <ImplicitTemplateUpdate />
       <ExplicitTemplateUpdateUseWatch />
-      <ExplicitTemplateUpdateUseResource />
+      {/* <ExplicitTemplateUpdateUseResource /> */}
     </div>
   );
 });
