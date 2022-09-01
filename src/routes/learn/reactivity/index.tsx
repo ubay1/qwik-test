@@ -136,18 +136,18 @@ export const DisplayDelayCount = component$((props: { store: IExplicitUseWatchSt
 
 export const ExplicitTemplateUpdateUseResource = component$(() => {
   const state = useStore<IExplicitUseWResourceStore>({
-    animeTitle: "naruto",
+    animeTitle: "",
     loading: false,
     data: [],
     errorMessage: "",
   });
 
   useServerMount$(async () => {
-    // if (state.animeTitle !== "") {
-    const response = await getRepositories(state.animeTitle);
+    if (state.animeTitle !== "") {
+      const response = await getRepositories(state.animeTitle);
 
-    state.data = response;
-    // }
+      state.data = response;
+    }
   });
 
   // const reposResource = useResource$<string[]>(({ track, cleanup }) => {
