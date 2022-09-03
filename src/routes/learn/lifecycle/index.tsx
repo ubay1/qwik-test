@@ -18,24 +18,22 @@ export default component$(() => {
   useServerMount$(async () => {
     try {
       const test = await Promise.all([
-        getImagesRandom(),
-        getImagesRandom1(),
-        getImagesRandom2(),
-        getImagesRandom3(),
-        getImagesRandom4(),
-        getImagesRandom5(),
+        getUserRandom(),
+        getUserRandom1(),
+        getUserRandom2(),
+        getUserRandom3(),
+        getUserRandom4(),
+        getUserRandom5(),
       ]);
 
       const tmpData: any[] = [];
       test.forEach((item: any) => {
-        item.message.forEach((item2: any) => {
-          tmpData.push(item2);
-        });
+        tmpData.push(item);
       });
 
       state.data = tmpData;
 
-      // const response = await getImagesRandom();
+      // const response = await getUserRandom();
       // console.log(response.message);
 
       // state.data = response.message;
@@ -53,9 +51,14 @@ export default component$(() => {
       <div className='text-pink-900 font-bold text-3xl'>7. Lifecycle</div>
 
       <div className='mt-4'>
-        <div className='flex flex-wrap'>
-          {state.data.map((item, index) => {
-            return <img className='m-2' src={item} alt={`img-anjing${index}`} width={50} height={50} />;
+        <div className='flex flex-wrap gap-4'>
+          {state.data.map((item: any, index) => {
+            return (
+              <div className='bg-blue-200 shadow-md rounded-md p-2 flex flex-col justify-center items-center'>
+                <img className='m-2' src={item.image} alt={`img-anjing${index}`} width={50} height={50} />
+                <p>{`${item.firstName} ${item.lastName}`}</p>
+              </div>
+            );
           })}
         </div>
       </div>
@@ -90,54 +93,63 @@ export const UseMount = component$(() => {
   );
 });
 
-export async function getImagesRandom(): Promise<string[]> {
+export function randomNumber() {
+  const min = 1;
+  const max = 100;
+
+  const randomNum = Math.floor(Math.random() * (max - min) + min);
+
+  return randomNum;
+}
+
+export async function getUserRandom(): Promise<string[]> {
   try {
-    const resp = await axios.get(`https://dog.ceo/api/breeds/image/random/3`);
+    const resp = await axios.get(`https://dummyjson.com/users/${randomNumber()}`);
     const json = await resp.data;
     return Promise.resolve(json);
   } catch (error) {
     return Promise.reject(error);
   }
 }
-export async function getImagesRandom1(): Promise<string[]> {
+export async function getUserRandom1(): Promise<string[]> {
   try {
-    const resp = await axios.get(`https://dog.ceo/api/breeds/image/random/3`);
+    const resp = await axios.get(`https://dummyjson.com/users/${randomNumber()}`);
     const json = await resp.data;
     return Promise.resolve(json);
   } catch (error) {
     return Promise.reject(error);
   }
 }
-export async function getImagesRandom2(): Promise<string[]> {
+export async function getUserRandom2(): Promise<string[]> {
   try {
-    const resp = await axios.get(`https://dog.ceo/api/breeds/image/random/3`);
+    const resp = await axios.get(`https://dummyjson.com/users/${randomNumber()}`);
     const json = await resp.data;
     return Promise.resolve(json);
   } catch (error) {
     return Promise.reject(error);
   }
 }
-export async function getImagesRandom3(): Promise<string[]> {
+export async function getUserRandom3(): Promise<string[]> {
   try {
-    const resp = await axios.get(`https://dog.ceo/api/breeds/image/random/3`);
+    const resp = await axios.get(`https://dummyjson.com/users/${randomNumber()}`);
     const json = await resp.data;
     return Promise.resolve(json);
   } catch (error) {
     return Promise.reject(error);
   }
 }
-export async function getImagesRandom4(): Promise<string[]> {
+export async function getUserRandom4(): Promise<string[]> {
   try {
-    const resp = await axios.get(`https://dog.ceo/api/breeds/image/random/3`);
+    const resp = await axios.get(`https://dummyjson.com/users/${randomNumber()}`);
     const json = await resp.data;
     return Promise.resolve(json);
   } catch (error) {
     return Promise.reject(error);
   }
 }
-export async function getImagesRandom5(): Promise<string[]> {
+export async function getUserRandom5(): Promise<string[]> {
   try {
-    const resp = await axios.get(`https://dog.ceo/api/breeds/image/random/3`);
+    const resp = await axios.get(`https://dummyjson.com/users/${randomNumber()}`);
     const json = await resp.data;
     return Promise.resolve(json);
   } catch (error) {
