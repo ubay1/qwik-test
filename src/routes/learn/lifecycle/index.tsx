@@ -53,16 +53,18 @@ export default component$(() => {
       <div className='text-pink-900 font-bold text-3xl'>7. Lifecycle</div>
 
       <div className='mt-4'>
+        <div className='flex flex-wrap'>
+          {state.data.map((item, index) => {
+            return <img className='m-2' src={item} alt={`img-anjing${index}`} width={50} height={50} />;
+          })}
+        </div>
+      </div>
+
+      <div className='mt-4'>
         <button className='bg-blue-200 p-1' onClick$={() => (state.show = !state.show)}>
           Toggle
         </button>
         {state.show ? <UseMount /> : null}
-      </div>
-
-      <div className='mt-4'>
-        {state.data.map((item, index) => {
-          return <img className='mb-2' src={item} alt={`img-anjing${index}`} width={50} height={50} />;
-        })}
       </div>
     </div>
   );
