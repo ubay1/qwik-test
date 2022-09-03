@@ -31,7 +31,7 @@ export default component$(() => {
           className='<md:hidden'
           class={
             state.isOpenMenuSm
-              ? "<md:flex <md:flex-col <md:absolute <md:rounded-md <md:right-3 <md:top-12 <md:bg-sky-900 <md:w-32"
+              ? "<md:flex <md:flex-col <md:absolute <md:rounded-md <md:right-5 <md:top-14 <md:bg-sky-900 <md:w-32"
               : "<md:hidden"
           }
         >
